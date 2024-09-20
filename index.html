@@ -24,14 +24,14 @@
 
         .fruit-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
             gap: 0.8rem;
             padding: 1rem;
         }
 
         .fruit-item {
-            text-align: center;
             position: relative;
+            text-align: center;
             border: 3px solid black;
             padding: 0.5rem;
             border-radius: 10px;
@@ -58,13 +58,16 @@
 
         .badge {
             position: absolute;
-            top: 0;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             display: inline-block;
             padding: 2px 4px;
-            font-size: 0.6rem;
-            margin-top: 0.25rem;
-            border-radius: 3px;
+            font-size: 0.7rem;
+            border-radius: 5px;
             color: white;
+            text-align: center;
+            z-index: 1;
         }
 
         .early {
@@ -173,7 +176,7 @@
 
         @media (min-width: 768px) {
             .fruit-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
             }
 
             .fruit-item p {
@@ -909,9 +912,9 @@
                     if (season.month === month) {
                         isInSeason = true;
                         if (season.type === 'early') {
-                            harvestTypeLabel = '<span class="badge early">primizia</span>';
+                            harvestTypeLabel = '<div class="badge early">primizia</div>';
                         } else if (season.type === 'late') {
-                            harvestTypeLabel = '<span class="badge late">tardiva</span>';
+                            harvestTypeLabel = '<div class="badge late">tardiva</div>';
                         }
                     }
                 });
