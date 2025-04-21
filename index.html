@@ -111,6 +111,18 @@
             padding: 0 3em;
         }
 
+        #search-input {
+            display: block;
+            margin: 0 auto 1rem auto;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            border: 2px solid black;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 400px;
+        }
+
+
         input {
             --c: orange;
             /* active color */
@@ -202,6 +214,8 @@
         <span class="month-name"></span>
     </h1>
     <input type="range" id="month-slider" min="1" max="12" value="1">
+    <input type="text" id="search-input" placeholder="Cerca frutta o verdura..." />
+
     <div class="fruit-grid"></div>
 
 
@@ -898,46 +912,48 @@
         const monthSlider = document.getElementById('month-slider');
         const monthNameSpan = document.querySelector('#month-title .month-name');
 
-        function updateFruitDisplay(month) {
+        function updateFruitDisplay(month, searchTerm = '') {
             fruitGrid.innerHTML = '';
 
-            fruits.forEach(fruit => {
-                const fruitItem = document.createElement('div');
-                fruitItem.classList.add('fruit-item');
+            fruits
+                .filter(fruit => fruit.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                .forEach(fruit => {
+                    const fruitItem = document.createElement('div');
+                    fruitItem.classList.add('fruit-item');
 
-                let isInSeason = false;
-                let harvestTypeLabel = '';
+                    let isInSeason = false;
+                    let harvestTypeLabel = '';
 
-                fruit.season.forEach(season => {
-                    if (season.month === month) {
-                        isInSeason = true;
-                        if (season.type === 'early') {
-                            harvestTypeLabel = '<div class="badge early">primizia</div>';
-                        } else if (season.type === 'late') {
-                            harvestTypeLabel = '<div class="badge late">tardiva</div>';
+                    fruit.season.forEach(season => {
+                        if (season.month === month) {
+                            isInSeason = true;
+                            if (season.type === 'early') {
+                                harvestTypeLabel = '<div class="badge early">primizia</div>';
+                            } else if (season.type === 'late') {
+                                harvestTypeLabel = '<div class="badge late">tardiva</div>';
+                            }
                         }
-                    }
-                });
+                    });
 
-                const svgId = fruitNameToSvgId(fruit.image || fruit.name);
-                const svg = `
+                    const svgId = fruitNameToSvgId(fruit.image || fruit.name);
+                    const svg = `
             <svg class="icon" width="48" height="48">
                 <use xlink:href="#${svgId}"></use>
             </svg>
         `;
 
-                fruitItem.innerHTML = `
+                    fruitItem.innerHTML = `
             ${svg}
             <p>${fruit.name}</p>
             ${harvestTypeLabel}
         `;
 
-                if (!isInSeason) {
-                    fruitItem.classList.add('out-of-season');
-                }
+                    if (!isInSeason) {
+                        fruitItem.classList.add('out-of-season');
+                    }
 
-                fruitGrid.appendChild(fruitItem);
-            });
+                    fruitGrid.appendChild(fruitItem);
+                });
 
         }
 
@@ -954,15 +970,27 @@
 
         monthSlider.addEventListener('input', (event) => {
             const selectedMonth = parseInt(event.target.value);
+            const searchTerm = searchInput.value;
             updateMonthName(selectedMonth);
-            updateFruitDisplay(selectedMonth); // Update fruits immediately on input change
+            updateFruitDisplay(selectedMonth, searchTerm);
         });
-
 
         monthSlider.addEventListener('change', (event) => {
             const selectedMonth = parseInt(event.target.value);
-            updateFruitDisplay(selectedMonth);
+            const searchTerm = searchInput.value;
+            updateFruitDisplay(selectedMonth, searchTerm);
         });
+
+
+
+        const searchInput = document.getElementById('search-input');
+
+        searchInput.addEventListener('input', () => {
+            const selectedMonth = parseInt(monthSlider.value);
+            const searchTerm = searchInput.value;
+            updateFruitDisplay(selectedMonth, searchTerm);
+        });
+
 
     </script>
 
