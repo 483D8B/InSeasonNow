@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>In Season Now</title>
-    <meta name="description" content="insert description">
+    <meta name="description" content="In Season Now">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -111,17 +111,68 @@
             padding: 0 3em;
         }
 
-        #search-input {
+        /* #search-input {
             display: block;
             margin: 0 auto 1rem auto;
             padding: 0.5rem;
-            font-size: 0.8rem;
+            font-size: 1rem;
             border: 2px solid black;
             border-radius: 8px;
             width: 80%;
             max-width: 400px;
+        } */
+
+
+        .form {
+            width: 100%;
+            padding: 2rem;
+            border-radius: 1rem;
         }
 
+        .form-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-item input {
+            width: 100%;
+            height: 3rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            background: transparent;
+            border: 2px solid #222;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-item input:focus {
+            border-color: orange;
+            outline: none;
+        }
+
+        .form-item label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            color: #888;
+            padding: 0 0.4rem;
+            background: white;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+
+        .form-item input:focus+label,
+        .form-item input:valid+label {
+            top: -0.6rem;
+            left: 0.75rem;
+            font-size: 0.75rem;
+            color: orange;
+        }
 
         input {
             --c: orange;
@@ -214,7 +265,14 @@
         <span class="month-name"></span>
     </h1>
     <input type="range" id="month-slider" min="1" max="12" value="1">
-    <input type="text" id="search-input" placeholder="Cerca frutta o verdura..." />
+
+    <div class="form">
+        <div class="form-item">
+            <input type="text" id="search-input" autocomplete="off" placeholder=" " required>
+            <label for="search-input">Cerca...</label>
+        </div>
+    </div>
+
 
     <div class="fruit-grid"></div>
 
